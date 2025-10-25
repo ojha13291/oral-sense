@@ -10,7 +10,14 @@ import { currentUser } from "@clerk/nextjs/server";
 import { redirect } from "next/navigation";
 
 
-export default function Home() {
+export default async function Home() {
+  const user = await currentUser();
+
+  // the best way of syncing => webhooks
+  await syncUser();
+
+  // redirect auth user to dashboard
+  if (user) redirect("/dashboard");
   return (
     <div>
       <div className="min-h-screen bg-background">
